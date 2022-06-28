@@ -1,8 +1,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = "192.168.0.19"
-var port = 1911
+var ip = GlobalData.server_info["AUTHENTICATE"]["IP"]
+var port = GlobalData.server_info["AUTHENTICATE"]["PORT"]
 
 
 func _ready():
@@ -27,4 +27,4 @@ func _OnConnectionSucceeded():
 
 
 remote func DistributeLoginToken(token):
-	GameServerHub.ReceiveLoginToken(token)
+	get_node("/root/GameServerHub").DistributeLoginToken(token)

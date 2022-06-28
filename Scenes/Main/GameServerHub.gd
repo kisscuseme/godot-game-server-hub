@@ -2,7 +2,7 @@ extends Node
 
 var network = NetworkedMultiplayerENet.new()
 var gateway_api = MultiplayerAPI.new()
-var port = 1912
+var port = GlobalData.server_info["GAME_SERVER_HUB"]["PORT"]
 var max_players = 100
 
 func _ready():
@@ -35,11 +35,10 @@ remote func RegisterGameServer(server_id):
 	"""
 	Name is something to add in the loadbalancer tutorial
 	"""
-	Data.gameserverlist["GameServer1"] = server_id
-	print(Data.gameserverlist)
+	GlobalData.gameserverlist["GameServer1"] = server_id
+	print(GlobalData.gameserverlist)
 
-
-func ReceiveLoginToken(token):
+func DistributeLoginToken(token):
 	var gameserver = "GameServer1" #로드 밸런싱으로 선택하도록 수정 필요
-	var gameserver_peer_id = Data.gameserverlist[gameserver]
+	var gameserver_peer_id = GlobalData.gameserverlist[gameserver]
 	rpc_id(gameserver_peer_id, "ReceiveLoginToken", token)
